@@ -60,9 +60,9 @@ for root, dirs, files in os.walk(wa_dir):
         filepaths = [os.path.join(root, f) for f in files]
         data_files[package_name].extend([os.path.relpath(f, package_dir) for f in filepaths])
 
-scripts = [os.path.join('scripts', s) for s in os.listdir('scripts')]
+scripts = [os.path.join(os.path.dirname(__file__), 'scripts', s) for s in os.listdir(os.path.join(os.path.dirname(__file__), 'scripts'))]
 
-with open("README.rst", "r") as fh:
+with open(os.path.join(os.path.dirname(__file__),"README.rst"), "r") as fh:
     long_description = fh.read()
 
 devlib_version = format_version(required_devlib_version)
@@ -72,6 +72,7 @@ params = dict(
     long_description=long_description,
     version=get_wa_version_with_commit(),
     packages=packages,
+    #packages=setuptools.find_packages(where="wa", exclude=("tests",))
     package_data=data_files,
     include_package_data=True,
     scripts=scripts,
